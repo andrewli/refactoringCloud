@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+    <!--  trace < debug < info < warn < error -->
+    <springProperty scope="context" name="module_name" source="spring.application.name"/>
+    <property name="LOG_HOME" value="/apprun/log/smartzone/${module_name}"/>
+    <property name="LOG_FILE" value="${module_name}"/>
+    <property name="LOG_FILE_ERROR" value="${module_name}-error"/>
+    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger:%line - [%tid] - %msg%n"/>
+    <property name="CHARSET" value="UTF-8"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>${CHARSET}</charset>
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </encoder>
+    </appender>
+
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/${LOG_FILE}.log</File>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>${CHARSET}</charset>
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/${LOG_FILE}.%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>7</maxHistory>TraceIdPatternLogbackLayout
+        </rollingPolicy>
+    </appender>
+
+    <appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${LOG_FILE_ERROR}.log</file>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>${CHARSET}</charset>
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/${LOG_FILE_ERROR}.%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+
+    <!-- 异步输出 -->
+    <appender name="async-console" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>256</queueSize>
+        <appender-ref ref="console"/>
+    </appender>
+
+    <appender name="async-file" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志,如果要保留所有等级的日志，需要设置成0 -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>256</queueSize>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="file"/>
+    </appender>
+
+    <appender name="async-file-error" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>256</queueSize>
+        <appender-ref ref="file_error"/>
+    </appender>
+
+    <!--  配置指定类的debug级别日志 -->
+    <logger name="com.example.demo.controller" level="DEBUG"/>
+
+    <root level="INFO">
+        <!--  note：异步日志作用：为提高程序性能，尽量默认都使用异步日志，如果不使用，可能日志在打包的时候，会占用大量磁盘IO和CPU，导致程序性能下降 -->
+        <appender-ref ref="async-console"/>
+        <appender-ref ref="async-file"/>
+        <appender-ref ref="async-file-error"/>
+    </root>
+</configuration>

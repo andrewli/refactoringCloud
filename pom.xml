@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>refactoringCloud</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>retransform</module>
+        <module>xxl-job</module>
+        <module>xxl-job-admin</module>
+    </modules>
+
+    <!-- 版本映射约定说明：https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E -->
+    <properties>
+        <java.version>1.8</java.version>
+        <spring.boot.version>2.3.12.RELEASE</spring.boot.version>
+        <spring.cloud.version>Hoxton.SR12</spring.cloud.version>
+        <spring-cloud-alibaba.version>2.2.7.RELEASE</spring-cloud-alibaba.version>
+        <amazonaws.version>1.10.69</amazonaws.version>
+        <httpcomponent.version>4.5.1</httpcomponent.version>
+        <skywalking.version>8.3.0</skywalking.version>
+        <fastjson.version>1.2.70</fastjson.version>
+        <leaf.version>1.0.1-RELEASE</leaf.version>
+        <curator.version>2.6.0</curator.version>
+        <mysql-connector-java.version>8.0.23</mysql-connector-java.version>
+        <springboot.mybatis.version>2.1.4</springboot.mybatis.version>
+        <uid-generator.version>1.0.0-SNAPSHOT</uid-generator.version>
+        <jasypt.version>2.1.0</jasypt.version>
+        <rocketmq.version>2.2.1</rocketmq.version>
+        <knife4j.version>2.0.8</knife4j.version>
+        <jnanoid.version>2.0.0</jnanoid.version>
+        <redisson.verson>3.15.0</redisson.verson>
+        <xxl-job.version>2.3.0</xxl-job.version>
+    </properties>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-bom</artifactId>
+                <version>${amazonaws.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpcomponent.version}</version>
+            </dependency>
+
+            <!-- mysql -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${springboot.mybatis.version}</version>
+            </dependency>
+
+            <!-- baidu uid -->
+            <dependency>
+                <groupId>com.baidu.fsg</groupId>
+                <artifactId>uid-generator</artifactId>
+                <version>${uid-generator.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.mybatis</groupId>
+                        <artifactId>mybatis-spring</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.mybatis</groupId>
+                        <artifactId>mybatis</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.alibaba</groupId>
+                        <artifactId>druid</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-jdbc</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-logback-1.x</artifactId>
+                <version>${skywalking.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-trace</artifactId>
+                <version>${skywalking.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>log4j</artifactId>
+                        <groupId>log4j</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sankuai.inf.leaf</groupId>
+                <artifactId>leaf-core</artifactId>
+                <version>${leaf.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${jasypt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>${rocketmq.version}</version>
+            </dependency>
+
+            <!-- knife4j -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+
+            <!--jnanoid -->
+            <dependency>
+                <groupId>com.aventrix.jnanoid</groupId>
+                <artifactId>jnanoid</artifactId>
+                <version>${jnanoid.version}</version>
+            </dependency>
+
+            <!-- redisson  版本与springboot关系：https://github.com/redisson/redisson/tree/master/redisson-spring-data#spring-data-redis-integration -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.verson}</version>
+            </dependency>
+
+            <!--xxl-job -->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

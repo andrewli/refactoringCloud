@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+    <!--  trace < debug < info < warn < error -->
+    <!-- 这是最新的也是最完整的日志配置文件 2022.1.22,这里主要是加上skywalking的tid链路唯一标识符 -->
+    <springProperty scope="context" name="module_name" source="spring.application.name"/>
+    <property name="LOG_HOME" value="/apprun/log/smartzone/${module_name}"/>
+    <property name="LOG_FILE" value="${module_name}"/>
+    <property name="LOG_FILE_ERROR" value="${module_name}-error"/>
+    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger:%line - [%tid] - %msg%n"/>
+    <property name="CHARSET" value="UTF-8"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!--  <encoder>
+              <charset>UTF-8</charset>
+              <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger:%line - %msg%n</pattern>
+          </encoder>-->
+
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>${CHARSET}</charset>
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </encoder>
+
+    </appender>
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/${LOG_FILE}.log</File>
+        <!--<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger:%line - %msg%n</pattern>
+        </encoder>
+        -->
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>${CHARSET}</charset>
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/${LOG_FILE}.%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>7</maxHistory>TraceIdPatternLogbackLayout
+        </rollingPolicy>
+    </appender>
+    <appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${LOG_FILE_ERROR}.log</file>
+        <!--<encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger:%line - %msg%n</pattern>
+        </encoder>-->
+
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <charset>${CHARSET}</charset>
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <!--                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger:%line - [%tid] - %msg%n</pattern>-->
+                <pattern>${PATTERN}</pattern>
+            </layout>
+        </encoder>
+
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/${LOG_FILE_ERROR}.%d{yyyy-MM-dd}.%i.log.gz</FileNamePattern>
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!--  配置指定类的debug级别日志 -->
+    <logger name="com.example.demo.controller" level="DEBUG"/>
+
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file"/>
+        <appender-ref ref="file_error"/>
+    </root>
+</configuration>
