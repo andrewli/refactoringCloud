@@ -36,6 +36,7 @@
         <jnanoid.version>2.0.0</jnanoid.version>
         <redisson.verson>3.15.0</redisson.verson>
         <xxl-job.version>2.3.0</xxl-job.version>
+        <prometheus.version>1.8.4</prometheus.version>
     </properties>
 
 
