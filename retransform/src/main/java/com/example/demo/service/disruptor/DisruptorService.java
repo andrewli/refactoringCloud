@@ -41,14 +41,20 @@ import java.util.concurrent.Executors;
 @Service
 public class DisruptorService {
     /*
-     Disruptor是一个高性能的线程间异步通信的框架，即在同一个JVM进程中的多线程间消息传递。
-    (1) Disruptor 是英国外汇交易公司 LMAX 开发的一个高性能的并发框架,是线程间通信的高效低延时的内存消息组件，它最大的特点是高性能。
-        与 Kafka、RabbitMQ 用于服务间的消息队列不同，disruptor 一般用于一个JVM 中多个线程间消息的传递。
-    (2) 从功能上来看，Disruptor 实现了“队列”的功能，而且是一个有界队列（事实上它是一个无锁的线程间通信库）。
-        作用与 ArrayBlockingQueue 有相似之处，但是 disruptor 从功能、性能上又都远好于 ArrayBlockingQueue。
-    (3) 单生产者：ProducerType.SINGLE  多生产者：ProducerType.MULTI
-    (4) Disruptor框架是一个优秀的并发框架，利用RingBuffer中的预分配内存实现内存的可重复利用，降低了GC的频率。
-    (5) 以下两个demo示例是不依赖与spring框架
+     简介： Disruptor是一个高性能的并发框架,是线程间通信的高效低延时的内存消息组件，即在同一个JVM进程中的多线程间消息传递，
+     利用RingBuffer中的预分配内存实现内存的可重复利用，降低了GC的频率。 与 Kafka、RabbitMQ 用于服务间的消息队列不同，
+     disruptor 一般用于一个JVM 中多个线程间消息的传递。从功能上来看，Disruptor 实现了“队列”的功能，而且是一个有界队列(事实上它是一个无锁的线程间通信库)
+     作用与 ArrayBlockingQueue 有相似之处，但是 disruptor 从功能、性能上又都远好于 ArrayBlockingQueue。
+
+     note： disruptor.shutdown 失效原因
+      ① disruptor.shutdown 方法仅仅能关闭当前已经启动了的消费者线程，对于调用时尚未启动的消费者线程不起作用。
+        在disruptor.shutdown如果能正确的关闭程序，需要满足两个条件：
+        1. 生产者的生产线程必须执行在disruptor.shutdown方法之前。
+        2. disruptor.shutdown方法必须执行在所有消费者线程启动之前。
+      ② 在实际使用中，disruptor.shutdown 失效问题也许并不常见。原因在于：线上环境中，生产者线程往往已经运行了一段时间，这段时间内，
+        足够线程池调用所有的消费者线程并运行。但如果生产者运行的时间过短，导致shutdown提前调用在消费者线程启动之前，则会产生问题。
+
+     note： 以下两个demo示例是不依赖与spring框架
      */
 
     /**
@@ -72,8 +78,9 @@ public class DisruptorService {
         // 定义要发送的数据
         MsgProducer msgProducer = new MsgProducer(disruptor);
         msgProducer.send(Arrays.asList("a", "b", "c"));
-
+        //为了保证消费者线程已经启动，留足足够的时间
         Thread.sleep(1000);
+        //方法会阻塞，但该方法执行结束后，并不一定会使程序关闭
         disruptor.shutdown();
 
     }
@@ -104,6 +111,7 @@ public class DisruptorService {
         }
         //为了保证消费者线程已经启动，留足足够的时间
         Thread.sleep(1000);
+        //方法会阻塞，但该方法执行结束后，并不一定会使程序关闭
         disruptor.shutdown();
     }
 
