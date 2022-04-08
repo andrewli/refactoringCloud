@@ -8,12 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 
 @EnableBinding({OrderSink.class, OrderSource.class})
-@MapperScan("com.baidu.fsg.uid")
+@MapperScan({"com.baidu.fsg.uid","com.example.demo.dao"})
 @SpringBootApplication
 public class RetransformApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RetransformApplication.class, args);
     }
-
 }
