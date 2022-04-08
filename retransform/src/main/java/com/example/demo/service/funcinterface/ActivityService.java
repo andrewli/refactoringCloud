@@ -12,7 +12,7 @@
  * accordance with the terms of the license.
  */
 
-package com.example.demo.service.functioninterface;
+package com.example.demo.service.funcinterface;
 
 import com.example.demo.common.enums.ActivityOptionEnum;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 /*
- * Project: retransformDemo
+ * Project: refactoringCloud
  *
- * File Created at 2022/3/25
+ * File Created at 2022/4/7
  *
  * Copyright 2016 CMCC Corporation Limited.
  * All rights reserved.
@@ -15,32 +15,34 @@
 package com.example.demo.controller;
 
 import com.example.demo.constant.Result;
-import com.example.demo.service.funcinterface.ActivityService;
+import com.example.demo.service.oss.BucketService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author liudongwei
- * @Type StrategyController
- * @Desc 策略模式的方式
- * @date 2022-03-25 22:02
+ * @Type OssLbBucket
+ * @Desc
+ * @date 2022-04-07 18:22
  */
 @Slf4j
 @RestController
-public class IfElseFuncController {
+public class OssLbBucket {
+
 
     @Autowired
-    private ActivityService activityService;
+    private BucketService bucketService;
 
-    @GetMapping("activity")
-    public Result activity(@RequestParam("userId") String userId,
-                           @RequestParam("source") Integer source) {
-        Boolean rewardResult = activityService.getReward(userId, source);
-        return Result.create(rewardResult);
+    @GetMapping("/getBucketName")
+    public Result getBucketName() {
+
+        List<String> bucketNames = Arrays.asList("bucket-1", "bucket-2", "bucket-3", "bucket-4");
+        String bucketName = bucketService.acquireBucket(bucketNames);
+        return Result.create(bucketName);
     }
-
-
 }

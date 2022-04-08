@@ -17,7 +17,7 @@ package com.example.demo.controller;
 import com.example.demo.constant.Result;
 import com.example.demo.service.callback.FuncService;
 import com.example.demo.service.callback.Teacher;
-import com.example.demo.service.callback.guafucallback.FutureCallbackService;
+import com.example.demo.service.callback.guacallback.FutureCallbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

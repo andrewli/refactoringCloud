@@ -12,7 +12,7 @@
  * accordance with the terms of the license.
  */
 
-package com.example.demo.service.callback.guafucallback;
+package com.example.demo.service.callback.guacallback;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
