@@ -47,6 +47,8 @@ public class MybatisService {
     无论try内是否抛出异常，try{} 大括号内执行结束后都会调用close方式关闭流：try{} 内容 -> close()方法 -> catch exception 处理 -> finally 处理
     开启一个 SqlSession （实际上也代表了一个数据库连接），并保证它最后能关闭
     使用 SqlSession 来获得 Mapper 对象,保证得到的 Cursor 对象是打开状态的
+
+    NIO：可以使用非直接缓冲区(allocate) 和直接缓冲区(allocateDirect) 详见：https://www.cnblogs.com/shamo89/p/9612794.html
 */
 
     @Autowired
@@ -68,7 +70,7 @@ public class MybatisService {
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
-            ByteBuffer byteBuffer =ByteBuffer.allocate(1024);
+            ByteBuffer byteBuffer =ByteBuffer.allocateDirect(1024);
             Iterator<DeviceUserSync> iterator = cursor.iterator();
             while (iterator.hasNext()) {
                 DeviceUserSync e = iterator.next();
