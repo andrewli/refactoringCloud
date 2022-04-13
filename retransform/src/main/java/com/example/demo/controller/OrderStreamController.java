@@ -14,7 +14,7 @@
 
 package com.example.demo.controller;
 
-import com.example.demo.constant.Result;
+import com.example.demo.common.constant.Result;
 import com.example.demo.service.rocketstream.OrderProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

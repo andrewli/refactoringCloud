@@ -2,7 +2,7 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.constant.Result;
+import com.example.demo.common.constant.Result;
 import com.example.demo.service.lock.LockService;
 import com.example.demo.vo.DelayJob;
 import com.example.demo.vo.User;

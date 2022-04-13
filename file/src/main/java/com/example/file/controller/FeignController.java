@@ -12,15 +12,14 @@
  * accordance with the terms of the license.
  */
 
-package com.example.demo.controller;
+package com.example.file.controller;
 
-import com.example.demo.config.SnowflakeService;
-import com.example.demo.common.constant.Result;
-import com.example.demo.exception.LeafServerException;
-import com.sankuai.inf.leaf.common.Status;
+import com.example.file.common.Result;
+import com.example.file.service.feign.WeatherFeignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -31,20 +30,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-public class LeafController {
-
+public class FeignController {
 
     @Autowired
-    private SnowflakeService snowflakeService;
+    private WeatherFeignService feignService;
 
-
-    @GetMapping("getLeafUuid")
-    public Result getLeafUuid() {
-        com.sankuai.inf.leaf.common.Result result = snowflakeService.getId("");
-        if (result.getStatus().equals(Status.EXCEPTION)) {
-            throw new LeafServerException(result.toString());
-        }
-        return Result.create(String.valueOf(result.getId()));
+    @GetMapping("queryWeatherNow")
+    public Result queryWeatherNow(@RequestParam("location")String location, @RequestParam("key") String key) {
+        return feignService.getWeatherNow(location, key);
     }
 
 }

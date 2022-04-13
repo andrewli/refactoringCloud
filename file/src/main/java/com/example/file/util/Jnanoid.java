@@ -1,7 +1,7 @@
 /*
- * Project: refactoringCloud
+ * Project: retransformDemo
  *
- * File Created at 2022/4/7
+ * File Created at 2022/3/30
  *
  * Copyright 2016 CMCC Corporation Limited.
  * All rights reserved.
@@ -12,18 +12,20 @@
  * accordance with the terms of the license.
  */
 
-package com.example.demo.service.oss;
+package com.example.file.util;
 
-import java.util.List;
+import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 
 /**
  * @author liudongwei
- * @Type LoadBalancer
- * @Desc
- * @date 2022-04-07 18:15
+ * @Type Jnanoid
+ * @Desc A unique string ID generator for Java.
+ * @date 2022-03-30 17:05
  */
-public interface LoadBalancer {
+public class Jnanoid {
 
-    String getEntry(List<String> bucketNames);
+    public static String randomId() {
+        return NanoIdUtils.randomNanoId();
+    }
 
 }

@@ -12,17 +12,18 @@
  * accordance with the terms of the license.
  */
 
-package com.example.demo.controller;
+package com.example.file.controller;
 
-import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.example.demo.config.OssConfig;
-import com.example.demo.util.UUID;
-import com.example.demo.constant.Result;
-import com.example.demo.constant.ResultCode;
+import com.example.file.common.Result;
+import com.example.file.common.ResultCode;
+import com.example.file.config.OssConfig;
+import com.example.file.util.FileUtil;
+import com.example.file.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -59,8 +59,11 @@ public class FileController {
     public static final String YYYYMMDD = "yyyyMMdd";
 
     
+//    @Autowired
+//    private AmazonS3Client client;
+
     @Autowired
-    private AmazonS3Client client;
+    private AmazonS3 client;
 
     @Autowired
     private OssConfig ossConfig;
@@ -111,7 +114,7 @@ public class FileController {
     public void downLoad(HttpServletRequest request, HttpServletResponse response, String fileName, String fileUrl) {
         log.info("file downLoad fileName:{},fileUrl:{}", fileName, fileUrl);
         response.setCharacterEncoding("utf8");
-        setChinaFileName(request, response, fileName);
+        FileUtil.setChinaFileName(request, response, fileName);
         InputStream inputStream = null;
         HttpURLConnection conn = null;
         try {
@@ -131,40 +134,6 @@ public class FileController {
             if (conn != null) {
                 conn.disconnect();
             }
-        }
-    }
-
-    public static void setChinaFileName(HttpServletRequest request, HttpServletResponse response, String fileName) {
-        String browser = "";
-        try {
-            browser = request.getHeader("User-Agent");
-            if (-1 < browser.indexOf("MSIE 6.0") || -1 < browser.indexOf("MSIE 7.0")) {
-                // IE6, IE7 浏览器
-                response.addHeader("content-disposition", "attachment;filename="
-                        + new String(fileName.getBytes(), "ISO8859-1"));
-            } else if (-1 < browser.indexOf("MSIE 8.0")) {
-                // IE8
-                response.addHeader("content-disposition",
-                        "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
-            } else if (-1 < browser.indexOf("MSIE 9.0")) {
-                // IE9
-                response.addHeader("content-disposition",
-                        "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
-            } else if (-1 < browser.indexOf("Chrome")) {
-                // 谷歌
-                response.addHeader("content-disposition", "attachment;filename*=UTF-8''"
-                        + URLEncoder.encode(fileName, "UTF-8"));
-            } else if (-1 < browser.indexOf("Safari")) {
-                // 苹果
-                response.addHeader("content-disposition", "attachment;filename="
-                        + new String(fileName.getBytes(), "ISO8859-1"));
-            } else {
-                // 火狐或者其他的浏览器
-                response.addHeader("content-disposition", "attachment;filename*=UTF-8''"
-                        + URLEncoder.encode(fileName, "UTF-8"));
-            }
-        } catch (Exception e) {
-            log.error("set china file name error:{}", e);
         }
     }
 

@@ -14,7 +14,7 @@
 
 package com.example.demo.controller;
 
-import com.example.demo.constant.Result;
+import com.example.demo.common.constant.Result;
 import com.example.demo.service.callback.FuncService;
 import com.example.demo.service.callback.Teacher;
 import com.example.demo.service.callback.guacallback.FutureCallbackService;

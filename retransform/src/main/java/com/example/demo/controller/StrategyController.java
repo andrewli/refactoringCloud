@@ -14,7 +14,7 @@
 
 package com.example.demo.controller;
 
-import com.example.demo.constant.Result;
+import com.example.demo.common.constant.Result;
 import com.example.demo.service.strategy.Strategy;
 import com.example.demo.service.strategy.StrategyFactory;
 import lombok.extern.slf4j.Slf4j;

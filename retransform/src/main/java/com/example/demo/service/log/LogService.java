@@ -12,9 +12,9 @@
  * accordance with the terms of the license.
  */
 
-package com.example.demo.service;
+package com.example.demo.service.log;
 
-import com.example.demo.constant.Result;
+import com.example.demo.common.constant.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

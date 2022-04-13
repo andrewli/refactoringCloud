@@ -15,8 +15,8 @@
 package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.example.demo.constant.Result;
-import com.example.demo.constant.ResultCode;
+import com.example.demo.common.constant.Result;
+import com.example.demo.common.constant.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;

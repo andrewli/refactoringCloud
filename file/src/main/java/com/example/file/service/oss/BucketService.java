@@ -12,7 +12,7 @@
  * accordance with the terms of the license.
  */
 
-package com.example.demo.service.oss;
+package com.example.file.service.oss;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

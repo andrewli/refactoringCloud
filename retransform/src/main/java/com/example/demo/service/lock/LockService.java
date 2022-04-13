@@ -15,8 +15,8 @@
 
 package com.example.demo.service.lock;
 
-import com.example.demo.constant.Result;
-import com.example.demo.constant.ResultCode;
+import com.example.demo.common.constant.Result;
+import com.example.demo.common.constant.ResultCode;
 import com.example.demo.service.delayjob.RedisDelayedQueue;
 import com.example.demo.util.Jnanoid;
 import com.example.demo.vo.DelayJob;

@@ -10,7 +10,7 @@
  * disclose such Confidential Information and shall use it only in
  * accordance with the terms of the license.
  */
-package com.example.demo.constant;
+package com.example.demo.common.constant;
 
 
 public enum ResultCode {

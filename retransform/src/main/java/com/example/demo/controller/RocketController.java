@@ -14,7 +14,7 @@
 
 package com.example.demo.controller;
 
-import com.example.demo.constant.Result;
+import com.example.demo.common.constant.Result;
 import com.example.demo.service.rocketmq.RockeMqProducer;
 import com.example.demo.util.Jnanoid;
 import com.example.demo.vo.User;

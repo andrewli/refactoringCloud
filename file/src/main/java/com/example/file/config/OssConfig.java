@@ -12,22 +12,22 @@
  * accordance with the terms of the license.
  */
 
-package com.example.demo.config;
+package com.example.file.config;
 
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.S3ClientOptions;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.CreateBucketRequest;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.regex.Pattern;
 
 /**
  * @author liudongwei
@@ -46,7 +46,37 @@ public class OssConfig {
     private String bucketName;
     private String endPoint;
 
+    /**
+     * 新版 S3 配置：1.11.506
+     *
+     * @Param []
+     * @Return AmazonS3
+     */
     @Bean
+    public AmazonS3 amazonS3Client() {
+        ClientConfiguration config = new ClientConfiguration();
+        config.setSignerOverride("S3SignerType");
+        AwsClientBuilder.EndpointConfiguration endpointConfig = new AwsClientBuilder.EndpointConfiguration(endPoint, Regions.CN_NORTH_1.getName());
+        AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
+        AWSCredentialsProvider awsCredentialsProvider = new AWSStaticCredentialsProvider(awsCredentials);
+
+        AmazonS3 client = AmazonS3Client.builder()
+                .withEndpointConfiguration(endpointConfig)
+                .withClientConfiguration(config)
+                .withCredentials(awsCredentialsProvider)
+                .disableChunkedEncoding()
+                .withPathStyleAccessEnabled(true)
+                .build();
+
+        return client;
+    }
+
+    /**
+     * 老版本的配置方式
+     * @Param []
+     * @Return AmazonS3Client
+     */
+  /*  @Bean
     public AmazonS3Client createClient() {
         ClientConfiguration opts = new ClientConfiguration();
         opts.setSignerOverride("S3SignerType");
@@ -67,6 +97,6 @@ public class OssConfig {
             client.createBucket(request);
         }
         return client;
-    }
+    }*/
 
 }

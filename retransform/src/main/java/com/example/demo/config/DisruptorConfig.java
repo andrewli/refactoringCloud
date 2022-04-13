@@ -14,13 +14,6 @@
 
 package com.example.demo.config;
 
-import com.amazonaws.ClientConfiguration;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.S3ClientOptions;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.CreateBucketRequest;
 import com.example.demo.common.constant.Constant;
 import com.example.demo.service.disruptor.MsgEventFactory;
 import com.example.demo.service.disruptor.MsgEventHandlerConsumer;
@@ -28,16 +21,13 @@ import com.example.demo.vo.MsgEvent;
 import com.lmax.disruptor.BlockingWaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.util.concurrent.Executors;
-import java.util.regex.Pattern;
 
 /**
  * @author liudongwei

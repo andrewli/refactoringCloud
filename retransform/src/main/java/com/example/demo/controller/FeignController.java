@@ -1,7 +1,7 @@
 /*
- * Project: refactoringCloud
+ * Project: retransformDemo
  *
- * File Created at 2022/4/7
+ * File Created at 2021/9/26
  *
  * Copyright 2016 CMCC Corporation Limited.
  * All rights reserved.
@@ -14,35 +14,31 @@
 
 package com.example.demo.controller;
 
-import com.example.demo.constant.Result;
-import com.example.demo.service.oss.BucketService;
+import com.example.demo.common.constant.Result;
+import com.example.demo.service.feign.annotation.WeatherFeignService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author liudongwei
- * @Type OssLbBucket
+ * @Type TestController
  * @Desc
- * @date 2022-04-07 18:22
+ * @date 2021-09-26 17:42
  */
 @Slf4j
 @RestController
-public class OssLbBucket {
-
+public class FeignController {
 
     @Autowired
-    private BucketService bucketService;
+    private WeatherFeignService feignService;
 
-    @GetMapping("/getBucketName")
-    public Result getBucketName() {
-
-        List<String> bucketNames = Arrays.asList("bucket-1", "bucket-2", "bucket-3", "bucket-4");
-        String bucketName = bucketService.acquireBucket(bucketNames);
-        return Result.create(bucketName);
+    @GetMapping("queryWeatherNow")
+    public Result queryWeatherNow(@RequestParam("location")String location, @RequestParam("key") String key) {
+        return feignService.getWeatherNow(location, key);
     }
+
 }
+
