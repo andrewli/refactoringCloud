@@ -38,10 +38,13 @@ public class FeignConfig {
         <groupId>io.github.openfeign</groupId>
         <artifactId>feign-httpclient</artifactId>
     </dependency>
-    feign ：spring-cloud-starter-openfeign 默认通过jdk中的HttpURLConnection 发起请求,参见 feign.Client.Default#execute，缺少池化处理
-            通过引入feign-httpclient 增加池化处理，参加org.springframework.cloud.openfeign.FeignAutoConfiguration.HttpClientFeignConfiguration.feignClient 池化配置
-            使用feign-httpclient 默认池化配置maxRoute、maxConnection即可，不需要再配置文件中添加feign.httpclient.enabled=true，不加也是true
-            feign-httpclient 版本需要与spring-cloud-starter-openfeign 版本保持一致，无论是否有池化处理，feign都是可以访问 http/https 的请求
+    feign 注解形式 ：spring-cloud-starter-openfeign 默认通过jdk中的HttpURLConnection 发起请求,参见 feign.Client.Default#execute，缺少池化处理
+                    通过引入feign-httpclient 增加池化处理，参加org.springframework.cloud.openfeign.FeignAutoConfiguration.HttpClientFeignConfiguration.feignClient 池化配置
+                    池化处理执行请求接口：feign.httpclient.ApacheHttpClient.execute
+                    使用feign-httpclient 默认池化配置maxRoute、maxConnection即可，不需要再配置文件中添加feign.httpclient.enabled=true，不加也是true
+                    feign-httpclient 版本需要与spring-cloud-starter-openfeign 版本保持一致
+                    无论是否有池化处理，@FeignClient 注解形式都是可以访问 http/https 的请求
+                    (note：原生方式默认只支持http，不支持https,需要自己额外增加https的配置)
      FeignConfig 的配置若加上@Configuration 则表示全局配置，建议不加，在@FeignClient 的 configuration 加上，表示该类包含的接口使用该feign配置
      reference : https://www.cnblogs.com/notayeser/p/12410919.html
     */

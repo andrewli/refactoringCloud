@@ -14,8 +14,10 @@
 
 package com.example.demo.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.demo.common.constant.Result;
 import com.example.demo.service.feign.annotation.WeatherFeignService;
+import com.example.demo.service.feign.noannotation.ThirdAppService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,9 +37,17 @@ public class FeignController {
     @Autowired
     private WeatherFeignService feignService;
 
-    @GetMapping("queryWeatherNow")
-    public Result queryWeatherNow(@RequestParam("location")String location, @RequestParam("key") String key) {
+    @Autowired
+    private ThirdAppService thirdAppService;
+
+    @GetMapping("queryWeatherByAnno")
+    public Result queryWeatherByAnno(@RequestParam("location") String location, @RequestParam("key") String key) {
         return feignService.getWeatherNow(location, key);
+    }
+
+    @GetMapping("queryWeatherByNoAnno")
+    public JSONObject queryWeatherByNoAnno(@RequestParam("location") String location, @RequestParam("key") String key) {
+        return thirdAppService.queryWeather(location, key);
     }
 
 }
