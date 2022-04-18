@@ -12,11 +12,11 @@
  * accordance with the terms of the license.
  */
 
-package com.example.demo.controller;
+package com.example.file.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.example.demo.common.constant.Result;
-import com.example.demo.common.constant.ResultCode;
+import com.example.file.common.Result;
+import com.example.file.common.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -50,8 +50,8 @@ public class BaseController {
     protected HttpServletResponse response;
 
     /**
-     *  @Valid 指定捕获表单数据提交异常，使用herbinate validator 工具
-     */
+    *  @Valid 指定捕获表单数据提交异常，使用herbinate validator 工具
+    */
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseBody
     public void validationBodyException(MethodArgumentNotValidException e) {

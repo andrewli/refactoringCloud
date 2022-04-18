@@ -21,12 +21,14 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.file.common.Result;
 import com.example.file.common.ResultCode;
+import com.example.file.common.enums.FileTypeEnum;
 import com.example.file.config.OssConfig;
 import com.example.file.util.FileUtil;
 import com.example.file.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +38,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -54,11 +59,11 @@ import java.util.Date;
  */
 @Slf4j
 @RestController
-public class FileController {
+public class FileController extends BaseController {
 
     public static final String YYYYMMDD = "yyyyMMdd";
 
-    
+
 //    @Autowired
 //    private AmazonS3Client client;
 
@@ -71,7 +76,7 @@ public class FileController {
     @PostMapping("upload")
     public Result upload(@RequestParam("file") MultipartFile file) {
         try {
-            
+
             String uploadUrl = acquireUploadFileUrl(file);
             return Result.create(uploadUrl);
         } catch (Exception e) {
@@ -111,6 +116,12 @@ public class FileController {
     }
 
 
+    /**
+     * 下载网络地址文件
+     *
+     * @Param [request, response, fileName, fileUrl]
+     * @Return void
+     */
     public void downLoad(HttpServletRequest request, HttpServletResponse response, String fileName, String fileUrl) {
         log.info("file downLoad fileName:{},fileUrl:{}", fileName, fileUrl);
         response.setCharacterEncoding("utf8");
@@ -137,5 +148,66 @@ public class FileController {
         }
     }
 
+
+    @GetMapping("/download/template")
+    public void exportBuildingTemplate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String buildingTemplate = "实有车辆模板.xlsx";
+        String contentType = FileTypeEnum.getEnum(FileTypeEnum.XLSX.getSuffix()).getContentType();
+        classPathDownload(request, response, buildingTemplate, contentType);
+    }
+
+    public static final String basePath = "static";
+
+    /**
+     * 下载 resource路径下static 下文件: 采用try（）内声明实现Closeable 自动关闭流的写法
+     *
+     * @Param [request, response, fileName, contentType]
+     * @Return void
+     */
+    public static void classPathDownload(HttpServletRequest request, HttpServletResponse response, String fileName, String contentType) throws IOException {
+        response.setCharacterEncoding("utf8");
+        response.setContentType(contentType);
+        FileUtil.setChinaFileName(request, response, fileName);
+        try (
+                InputStream inputStream = new ClassPathResource(basePath + File.separator + fileName).getInputStream();
+        ) {
+            IOUtils.copy(inputStream, response.getOutputStream());
+            response.flushBuffer();
+        }
+    }
+
+    /**
+    * 手动关闭流写法
+    * @Param [request, response, fileName, contentType]
+    * @Return void
+    */
+    public static void classPathDownloadOld(HttpServletRequest request, HttpServletResponse response, String fileName,String contentType)  {
+        response.setCharacterEncoding("utf8");
+        response.setContentType(contentType);
+        FileUtil.setChinaFileName(request, response, fileName);
+        FileInputStream fis = null;
+        try {
+            ClassPathResource classPathResource = new ClassPathResource(basePath + File.separator + fileName);
+            InputStream inputStream = classPathResource.getInputStream();
+            try {
+                IOUtils.copy(inputStream, response.getOutputStream());
+                response.flushBuffer();
+            } finally {
+                IOUtils.closeQuietly(inputStream);
+            }
+        } catch (FileNotFoundException e) {
+            log.error("文件不存在", e);
+        } catch (IOException e) {
+            log.error("文件IO异常", e);
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    log.error("文件IO异常", e);
+                }
+            }
+        }
+    }
 }
 
