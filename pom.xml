@@ -39,6 +39,7 @@
         <xxl-job.version>2.3.0</xxl-job.version>
         <prometheus.version>1.8.4</prometheus.version>
         <disruptor.version>3.4.2</disruptor.version>
+        <cglib.version>3.3.0</cglib.version>
     </properties>
 
     <dependencyManagement>
@@ -197,6 +198,14 @@
                 <groupId>com.lmax</groupId>
                 <artifactId>disruptor</artifactId>
                 <version>${disruptor.version}</version>
+            </dependency>
+
+
+            <!-- cglib -->
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>${cglib.version}</version>
             </dependency>
 
         </dependencies>
