@@ -40,6 +40,7 @@ public class MsgProducer {
             MsgEvent event = ringBuffer.get(next);
             event.setValue(data);
         }finally {
+            //注意最后的publish方法必须放在finally中以确保必须得到调用；如果某个请求的sequence未被提交将会堵塞后续的发布操作或者其他的producer
             ringBuffer.publish(next);
         }
     }
