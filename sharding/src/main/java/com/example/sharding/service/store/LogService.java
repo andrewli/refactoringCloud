@@ -48,8 +48,14 @@ public class LogService extends BaseService  implements Strategy<Log> {
         logMapper.add(log);
     }
 
+
     @Override
-    public Log findbyId(Long id) {
-        return null;
+    public Log findByUuid(Long uuid) {
+        return logMapper.findByUuid(uuid);
+    }
+
+    @Override
+    public Long total() {
+        return logMapper.total();
     }
 }

@@ -6,6 +6,8 @@ public interface FaceMapper {
 
 	Long add(Face face);
 
-	Face findById(Long id);
+	Face findByUuid(Long uuid);
+
+	Long total();
 	
 }

@@ -6,6 +6,8 @@ public interface SysMapper {
 	
 	Long add(Sys sys);
 
-	Sys findById(Long id);
+	Sys findByUuid(Long uuid);
+
+	Long total();
 	
 }

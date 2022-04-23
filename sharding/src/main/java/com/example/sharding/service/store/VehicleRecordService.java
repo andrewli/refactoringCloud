@@ -49,8 +49,12 @@ public class VehicleRecordService extends BaseService implements Strategy<Vehicl
     }
 
     @Override
-    public VehicleRecord findbyId(Long id) {
-        return vehicleRecordMapper.findById(id);
+    public VehicleRecord findByUuid(Long uuid) {
+        return vehicleRecordMapper.findByUuId(uuid);
     }
 
+    @Override
+    public Long total() {
+        return vehicleRecordMapper.total();
+    }
 }

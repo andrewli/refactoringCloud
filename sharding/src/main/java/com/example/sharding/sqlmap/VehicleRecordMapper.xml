@@ -13,9 +13,12 @@
         )
     </insert>
 
-    <select id="findById" resultType="com.example.sharding.model.VehicleRecord">
-        SELECT * FROM vehicle_record_0 WHEREid=#{id};
+    <select id="findByUuId" resultType="com.example.sharding.model.VehicleRecord">
+        SELECT * FROM vehicle_record WHERE uuid=#{uuid};
     </select>
 
+    <select id="total" resultType="java.lang.Long">
+        select count(*) from vehicle_record
+    </select>
 
 </mapper>

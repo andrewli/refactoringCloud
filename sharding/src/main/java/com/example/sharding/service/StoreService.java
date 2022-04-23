@@ -45,10 +45,15 @@ public class StoreService {
         strategy.add(JSONObject.parseObject(JSONObject.toJSONString(storeVo.getData()), classType));
     }
 
-    public Object findById(Integer type, Long id) {
+    public Object findByUuid(Integer type, Long uuid) {
         Strategy strategy = strategyFactory.getStrategy(type);
-        return strategy.findbyId(id);
+        return strategy.findByUuid(uuid);
 
+    }
+
+    public Long total(Integer type) {
+        Strategy strategy = strategyFactory.getStrategy(type);
+        return strategy.total();
     }
 
 

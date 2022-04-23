@@ -13,8 +13,12 @@
         )
     </insert>
 
-    <select id="findById" resultType="com.example.sharding.model.Log">
-        SELECT * FROM log WHEREid=#{id};
+    <select id="findByUuid" resultType="com.example.sharding.model.Log">
+        SELECT * FROM log WHERE uuid=#{uuid};
+    </select>
+
+    <select id="total" resultType="java.lang.Long">
+        select count(*) from log
     </select>
 
 

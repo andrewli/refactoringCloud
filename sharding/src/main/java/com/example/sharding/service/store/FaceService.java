@@ -50,7 +50,12 @@ public class FaceService extends BaseService implements Strategy<Face> {
     }
 
     @Override
-    public Face findbyId(Long id) {
-        return faceMapper.findById(id);
+    public Face findByUuid(Long uuid) {
+        return faceMapper.findByUuid(uuid);
+    }
+
+    @Override
+    public Long total() {
+        return faceMapper.total();
     }
 }

@@ -48,8 +48,12 @@ public class SysService extends BaseService  implements Strategy<Sys> {
     }
 
     @Override
-    public Sys findbyId(Long id) {
-        return sysMapper.findById(id);
+    public Sys findByUuid(Long uuid) {
+        return sysMapper.findByUuid(uuid);
     }
 
+    @Override
+    public Long total() {
+        return sysMapper.total();
+    }
 }

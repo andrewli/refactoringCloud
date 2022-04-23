@@ -13,9 +13,12 @@
         )
     </insert>
 
-    <select id="findById" resultType="com.example.sharding.model.Face">
-        SELECT * FROM face WHEREid=#{id};
+    <select id="findByUuid" resultType="com.example.sharding.model.Face">
+        SELECT * FROM face WHERE uuid=#{uuid};
     </select>
 
+    <select id="total" resultType="java.lang.Long">
+        select count(*) from face
+    </select>
 
 </mapper>

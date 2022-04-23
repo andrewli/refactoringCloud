@@ -49,8 +49,13 @@ public class AccessRecordService extends BaseService implements Strategy<AccessR
     }
 
     @Override
-    public AccessRecord findbyId(Long id) {
-        return accessRecordMapper.findById(id);
+    public AccessRecord findByUuid(Long uuid) {
+        return accessRecordMapper.findByUuid(uuid);
 
+    }
+
+    @Override
+    public Long total() {
+        return accessRecordMapper.total();
     }
 }

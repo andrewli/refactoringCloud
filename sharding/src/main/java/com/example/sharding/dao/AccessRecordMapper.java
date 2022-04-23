@@ -6,6 +6,8 @@ public interface AccessRecordMapper {
 
 	Long add(AccessRecord accessRecord);
 
-	AccessRecord  findById(Long id);
+	AccessRecord  findByUuid(Long uuid);
+
+	Long total();
 	
 }

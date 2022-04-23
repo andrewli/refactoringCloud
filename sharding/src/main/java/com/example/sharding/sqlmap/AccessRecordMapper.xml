@@ -13,9 +13,13 @@
         )
     </insert>
 
-    <select id="findById" resultType="com.example.sharding.model.AccessRecord">
-        SELECT * FROM access_record WHEREid=#{id};
+    <select id="findByUuid" resultType="com.example.sharding.model.AccessRecord">
+        SELECT * FROM access_record WHERE uuid=#{uuid};
     </select>
 
+
+    <select id="total" resultType="java.lang.Long">
+        select count(*) from access_record
+    </select>
 
 </mapper>

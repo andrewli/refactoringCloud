@@ -6,6 +6,8 @@ public interface LogMapper {
 	
 	Long add(Log log);
 
-	Log findById(Long id);
+	Log findByUuid(Long uuid);
+
+	Long total();
 	
 }

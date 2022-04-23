@@ -27,7 +27,9 @@ public interface Strategy<T> {
 
     void add(T t);
 
-    T findbyId( Long id);
+    T findByUuid( Long uuid);
+
+    Long total();
 
 
 }

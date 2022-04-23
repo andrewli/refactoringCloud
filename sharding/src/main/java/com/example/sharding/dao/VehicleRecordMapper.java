@@ -6,6 +6,8 @@ public interface VehicleRecordMapper {
 	
 	void add(VehicleRecord vehicleRecord);
 
-	VehicleRecord findById(Long id);
+	VehicleRecord findByUuId(Long uuid);
+
+	Long total();
 	
 }
