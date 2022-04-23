@@ -17,9 +17,11 @@ package com.example.sharding.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.sharding.common.Result;
 import com.example.sharding.common.ResultCode;
+import com.example.sharding.service.StoreService;
 import com.example.sharding.service.oss.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +41,9 @@ public class FileController extends BaseController {
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private StoreService storeService;
+
     @PostMapping("upload")
     public Result upload(@RequestParam("file") MultipartFile file,
                          @RequestParam("storeType") Integer storeType,
@@ -50,6 +55,17 @@ public class FileController extends BaseController {
             log.error("upload file error:{}", e);
             return Result.error(ResultCode.PARAMETER_ILLEGAL, "上传文件失败");
         }
+    }
+
+
+    @GetMapping("/query")
+    public Result get(@RequestParam("type")Integer type, @RequestParam("uuid") Long uuid) {
+        return Result.create(storeService.findByUuid(type,uuid));
+    }
+
+    @GetMapping("/total")
+    public Result total(@RequestParam("type")Integer type) {
+        return Result.create(storeService.total(type));
     }
 
 
