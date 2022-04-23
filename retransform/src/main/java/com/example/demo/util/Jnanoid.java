@@ -28,4 +28,9 @@ public class Jnanoid {
         return NanoIdUtils.randomNanoId();
     }
 
+    public static void main(String[] args) {
+        String s = randomId();
+        System.out.println(s);
+    }
+
 }

@@ -14,6 +14,7 @@
         <module>xxl-job</module>
         <module>xxl-job-admin</module>
         <module>file</module>
+        <module>sharding</module>
     </modules>
 
     <!-- 版本映射约定说明：https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E -->
@@ -40,6 +41,7 @@
         <prometheus.version>1.8.4</prometheus.version>
         <disruptor.version>3.4.2</disruptor.version>
         <cglib.version>3.3.0</cglib.version>
+        <sharding-jdbc.version>4.1.11</sharding-jdbc.version>
     </properties>
 
     <dependencyManagement>
@@ -206,6 +208,13 @@
                 <groupId>cglib</groupId>
                 <artifactId>cglib</artifactId>
                 <version>${cglib.version}</version>
+            </dependency>
+
+            <!-- sharding-jdbc -->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc.version}</version>
             </dependency>
 
         </dependencies>

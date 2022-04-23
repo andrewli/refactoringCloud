@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sharding.dao.AccessRecordMapper">
+
+    <insert id="add">
+        INSERT INTO access_record (
+          uuid, sys_url, original_url
+        )
+        VALUES (
+        #{uuid},
+        #{sysUrl},
+        #{originalUrl}
+        )
+    </insert>
+
+    <select id="findById" resultType="com.example.sharding.model.AccessRecord">
+        SELECT * FROM access_record WHEREid=#{id};
+    </select>
+
+
+</mapper>
