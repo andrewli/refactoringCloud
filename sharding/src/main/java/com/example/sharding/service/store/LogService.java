@@ -43,9 +43,11 @@ public class LogService extends BaseService  implements Strategy<Log> {
 
 
     @Override
-    public void add(Log log) {
-        log.setUuid(cachedUidGenerator.getUID());
+    public Long add(Log log) {
+        Long fileUuid = cachedUidGenerator.getUID();
+        log.setUuid(fileUuid);
         logMapper.add(log);
+        return fileUuid;
     }
 
 

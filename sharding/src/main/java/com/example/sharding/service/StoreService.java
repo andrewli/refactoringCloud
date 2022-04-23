@@ -35,14 +35,16 @@ public class StoreService {
     @Autowired
     private StrategyFactory strategyFactory;
 
-    public void add(StoreVo storeVo) {
+    public Long add(StoreVo storeVo) {
         Integer storeType = storeVo.getStoreType();
         Assert.notNull(storeType, "存储类型不能为空");
         StoreTypeEnum storeTypeEnum = StoreTypeEnum.get(storeType);
         Assert.notNull(storeTypeEnum, "存储类型不存在");
         Class classType = storeTypeEnum.getDesc().getClassType();
         Strategy strategy = strategyFactory.getStrategy(storeType);
-        strategy.add(JSONObject.parseObject(JSONObject.toJSONString(storeVo.getData()), classType));
+        Long fileUuid = strategy.add(JSONObject.parseObject(JSONObject.toJSONString(storeVo.getData()), classType));
+        return fileUuid;
+
     }
 
     public Object findByUuid(Integer type, Long uuid) {

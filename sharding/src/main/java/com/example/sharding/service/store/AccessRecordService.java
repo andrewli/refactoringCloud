@@ -42,10 +42,11 @@ public class AccessRecordService extends BaseService implements Strategy<AccessR
     }
 
     @Override
-    public void add(AccessRecord accessRecord) {
-        long uuid = cachedUidGenerator.getUID();
-        accessRecord.setUuid(uuid);
+    public Long add(AccessRecord accessRecord) {
+        long fileUuid = cachedUidGenerator.getUID();
+        accessRecord.setUuid(fileUuid);
         accessRecordMapper.add(accessRecord);
+        return fileUuid;
     }
 
     @Override

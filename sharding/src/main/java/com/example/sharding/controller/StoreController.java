@@ -40,8 +40,8 @@ public class StoreController extends BaseController {
 
     @PostMapping("/add")
     public Result add(@RequestBody StoreVo storeVo) {
-        storeService.add(storeVo);
-        return Result.create();
+        Long fileUuid = storeService.add(storeVo);
+        return Result.create(fileUuid);
     }
 
     @GetMapping("/query")

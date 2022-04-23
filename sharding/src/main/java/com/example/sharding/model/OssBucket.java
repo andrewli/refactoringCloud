@@ -7,21 +7,22 @@ import java.util.Date;
 
 
 @Data
-public class Sys implements Serializable {
+public class OssBucket implements Serializable {
 
     private static final long serialVersionUID = -1205226416664488559L;
 
     private Long id;
 
-    private Long uuid;
+    private String accountName;
 
-    private String sysUrl;
+    private String bucketName;
 
-    private String originalUrl;
+    private Integer storeType;
 
     private Integer isDelete;
 
     private Date createTime;
 
+    private Date updateTime;
 
 }

@@ -1,7 +1,7 @@
 /*
- * Project: retransformDemo
+ * Project: refactoringCloud
  *
- * File Created at 2022/3/25
+ * File Created at 2022/4/7
  *
  * Copyright 2016 CMCC Corporation Limited.
  * All rights reserved.
@@ -12,24 +12,18 @@
  * accordance with the terms of the license.
  */
 
-package com.example.sharding.service;
+package com.example.sharding.service.oss;
+
+import java.util.List;
 
 /**
  * @author liudongwei
- * @Type Strategy
+ * @Type LoadBalancer
  * @Desc
- * @date 2022-03-25 20:33
+ * @date 2022-04-07 18:15
  */
-public interface Strategy<T> {
+public interface LoadBalancer {
 
-
-    Integer type();
-
-    Long add(T t);
-
-    T findByUuid( Long uuid);
-
-    Long total();
-
+    String getEntry(List<String> bucketNames);
 
 }

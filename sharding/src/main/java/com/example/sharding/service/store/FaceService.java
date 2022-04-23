@@ -43,10 +43,11 @@ public class FaceService extends BaseService implements Strategy<Face> {
 
 
     @Override
-    public void add(Face face) {
-
-        face.setUuid(cachedUidGenerator.getUID());
+    public Long add(Face face) {
+        Long fileUuid = cachedUidGenerator.getUID();
+        face.setUuid(fileUuid);
         faceMapper.add(face);
+        return fileUuid;
     }
 
     @Override

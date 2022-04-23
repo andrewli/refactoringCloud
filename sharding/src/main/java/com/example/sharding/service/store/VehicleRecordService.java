@@ -41,11 +41,11 @@ public class VehicleRecordService extends BaseService implements Strategy<Vehicl
     }
 
     @Override
-    public void add(VehicleRecord vehicleRecord) {
-
-        vehicleRecord.setUuid(cachedUidGenerator.getUID());
+    public Long add(VehicleRecord vehicleRecord) {
+        Long fileUuid = cachedUidGenerator.getUID();
+        vehicleRecord.setUuid(fileUuid);
         vehicleRecordMapper.add(vehicleRecord);
-
+        return fileUuid;
     }
 
     @Override

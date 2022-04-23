@@ -73,6 +73,18 @@
             <groupId>com.baidu.fsg</groupId>
             <artifactId>uid-generator</artifactId>
         </dependency>
+
+        <!-- oss -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+        </dependency>
+
+        <!--jnanoid -->
+        <dependency>
+            <groupId>com.aventrix.jnanoid</groupId>
+            <artifactId>jnanoid</artifactId>
+        </dependency>
     </dependencies>
 
     <!-- 如果上面使用了dependencyManagement，而不是最上面的parent情况，则在plugin中需要做以下配置：不然的话打的jar 运行java -jar命令，报错：提示找不到主类 -->

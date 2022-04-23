@@ -42,9 +42,11 @@ public class SysService extends BaseService  implements Strategy<Sys> {
     }
 
     @Override
-    public void add(Sys sys) {
-        sys.setUuid(cachedUidGenerator.getUID());
+    public Long add(Sys sys) {
+        Long fileUuid = cachedUidGenerator.getUID();
+        sys.setUuid(fileUuid);
         sysMapper.add(sys);
+        return fileUuid;
     }
 
     @Override

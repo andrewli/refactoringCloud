@@ -21,7 +21,7 @@ public class VehicleRecord implements Serializable {
 
     private Integer isDelete;
 
-    private Date create_time;
+    private Date createTime;
 
 
 }
