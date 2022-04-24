@@ -6,12 +6,15 @@
 (4) log：日志文件  10张表
 (5) sys：系统资源，附件、视频、图标、压缩包等  5 张表
 
+上传文件返回的路径规则 域名/bucketName/业务类/上传时间(yyyyMMdd)/有效时间(d)/随机文件名
+示例：https://oss6.komect.com/hxqdev001/face/20220424/90d/ymd45hz1javasgiuyazbi.jpg
+
 #### 步骤一：执行sql
 sharding/record-file/sql 目录下：首先执行sharding-table.sql (业务表) ，然后执行baidu-uuid.sql(baidu-uid 表)和bucket.sql
 备注：数据库建议建立一个独立的新库，库名根据需要自定义，项目sql中为smartzone
 
 #### 步骤二：安装jar
-sharding/record-file/jar 目录下：安装 uid-generator-1.0.0-SNAPSHOT.jar，并可有将其推送至项目maven仓库中
+sharding/record-file/jar 目录下：安装 uid-generator-1.0.0-SNAPSHOT.jar，并可将其推送至项目maven仓库中
 
 #### 步骤三：配置VM options
 因本项目引入sky-walking,本地启动项目时需要依赖 skywalking-agent.jar
