@@ -59,8 +59,8 @@ public class FileController extends BaseController {
 
 
     @GetMapping("/query")
-    public Result get(@RequestParam("type")Integer type, @RequestParam("uuid") Long uuid) {
-        return Result.create(storeService.findByUuid(type,uuid));
+    public Result get(@RequestParam("type")Integer type, @RequestParam("fileUuid") Long fileUuid) {
+        return Result.create(storeService.findByUuid(type,fileUuid));
     }
 
     @GetMapping("/total")
