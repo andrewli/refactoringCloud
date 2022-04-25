@@ -67,19 +67,7 @@ public class FileService {
     public JSONObject uploadFile(MultipartFile file, Integer storeType, Integer expireDays) throws IOException {
         StoreTypeEnum storeTypeEnum = StoreTypeEnum.get(storeType);
         Assert.notNull(storeTypeEnum, "存储类型不存在");
-
-        String fileName = file.getOriginalFilename();
-        String fileExtension = fileName.substring(fileName.lastIndexOf("."));
-        StringBuffer sb = new StringBuffer();
-        sb.append(storeTypeEnum.name().toLowerCase());
-        sb.append("/");
-        sb.append(DateTimeFormatter.ofPattern(DateUtil.YYYYMMDD).format(LocalDate.now()));
-        sb.append("/");
-        sb.append(expireDays + "d");
-        sb.append("/");
-        sb.append(Jnanoid.randomId().toLowerCase());
-        sb.append(fileExtension);
-        String fileStoreName = sb.toString();
+        String fileStoreName = generateStoreFileName(file.getOriginalFilename(), expireDays, storeTypeEnum);
 
         List<String> bucketNames = loadBucket.getBucketName(storeType);
         String bucketName = bucketService.acquireBucket(bucketNames);
@@ -107,6 +95,20 @@ public class FileService {
         data.put("fileUuid", fileUuid);
         return data;
 
+    }
+
+    private String generateStoreFileName(String fileName, Integer expireDays, StoreTypeEnum storeTypeEnum) {
+        String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+        StringBuffer sb = new StringBuffer();
+        sb.append(storeTypeEnum.name().toLowerCase());
+        sb.append("/");
+        sb.append(DateTimeFormatter.ofPattern(DateUtil.YYYYMMDD).format(LocalDate.now()));
+        sb.append("/");
+        sb.append(expireDays + "d");
+        sb.append("/");
+        sb.append(Jnanoid.randomId().toLowerCase());
+        sb.append(fileExtension);
+        return sb.toString();
     }
 
 }

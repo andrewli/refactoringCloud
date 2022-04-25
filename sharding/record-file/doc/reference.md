@@ -22,7 +22,7 @@ vm options 配置：-javaagent:D:\plugin\apache-skywalking-java-agent-8.9.0\skyw
 上面配置中的skywalking 的 server 端地址和 skywalking-agent.jar 地址根据实际情况更改
 
 #### 步骤四：数据库账号加密
-使用 jasypt 对数据库账号加密：com.example.sharding.util.DbEncryptTest 类用于生成数据库账号密码密文
+使用 jasypt 对数据库账号加密，若本地数据账号非 root/root，使用 com.example.sharding.util.DbEncryptTest 类用于生成数据库账号密码密文替换即可
 
 
 
